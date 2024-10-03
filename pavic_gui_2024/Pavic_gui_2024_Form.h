@@ -85,6 +85,7 @@ namespace pavicgui2024 {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label11 = (gcnew System::Windows::Forms::Label());
+			this->label12 = (gcnew System::Windows::Forms::Label());
 			this->bt_close_copy = (gcnew System::Windows::Forms::Button());
 			this->bt_close_output = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pbox_input))->BeginInit();
@@ -181,16 +182,6 @@ namespace pavicgui2024 {
 			this->label1->TabIndex = 8;
 			this->label1->Text = L" Felipe Bezerra Lima";
 			// 
-			// // 
-			// label11
-			// 
-			this->label11->AutoSize = true;
-			this->label11->Location = System::Drawing::Point(388, 709);
-			this->label11->Name = L"label11";
-			this->label11->Size = System::Drawing::Size(158, 16);
-			this->label11->TabIndex = 8;
-			this->label11->Text = L"Teste";
-			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
@@ -199,6 +190,24 @@ namespace pavicgui2024 {
 			this->label2->Size = System::Drawing::Size(111, 16);
 			this->label2->TabIndex = 9;
 			this->label2->Text = L" PAVIC LAB: 2024";
+			// 
+			// label11
+			// 
+			this->label11->AutoSize = true;
+			this->label11->Location = System::Drawing::Point(555, 709);
+			this->label11->Name = L"label11";
+			this->label11->Size = System::Drawing::Size(158, 16);
+			this->label11->TabIndex = 12;
+			this->label11->Text = L"";
+			// 
+			// label12
+			// 
+			this->label12->AutoSize = true;
+			this->label12->Location = System::Drawing::Point(1087, 709);
+			this->label12->Name = L"label12";
+			this->label12->Size = System::Drawing::Size(158, 16);
+			this->label12->TabIndex = 13;
+			this->label12->Text = L"";
 			// 
 			// bt_close_copy
 			// 
@@ -230,6 +239,7 @@ namespace pavicgui2024 {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->label11);
+			this->Controls->Add(this->label12);
 			this->Controls->Add(this->bt_filter_bw);
 			this->Controls->Add(this->bt_copy);
 			this->Controls->Add(this->pbox_output);
@@ -305,7 +315,7 @@ private: System::Void bt_copy_Click(System::Object^ sender, System::EventArgs^ e
 	auto stop_single_thread = std::chrono::high_resolution_clock::now();
 	// Registra o tempo do timer em milisegundos
 	auto duration_single_thread = std::chrono::duration_cast<std::chrono::milliseconds>(stop_single_thread - start_single_thread);
-	label11->Text = "Tempo de cópia: " + duration_single_thread.count() + " ms";
+	label11->Text = "Copy time: " + duration_single_thread.count() + " ms";
 
 	// Exibe a imagem de saída
 	pbox_copy->Image = outputImage;
@@ -333,7 +343,7 @@ private: System::Void bt_filter_bw_Click(System::Object^ sender, System::EventAr
 	auto stop_single_thread = std::chrono::high_resolution_clock::now();
 	// Registra o tempo do timer em milisegundos
 	auto duration_single_thread = std::chrono::duration_cast<std::chrono::milliseconds>(stop_single_thread - start_single_thread);
-	label11->Text = "Tempo de filtro: " + duration_single_thread.count() + " ms";
+	label12->Text = "Filter time: " + duration_single_thread.count() + " ms";
 
 	// Exibe a imagem de saída
 	pbox_output->Image = outputImage;
