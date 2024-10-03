@@ -1,5 +1,7 @@
 #pragma once
-
+#include <cmath>
+#include <iostream>
+#include <chrono>
 
 
 namespace pavicgui2024 {
@@ -82,6 +84,7 @@ namespace pavicgui2024 {
 			this->bt_filter_bw = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label11 = (gcnew System::Windows::Forms::Label());
 			this->bt_close_copy = (gcnew System::Windows::Forms::Button());
 			this->bt_close_output = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pbox_input))->BeginInit();
@@ -111,7 +114,7 @@ namespace pavicgui2024 {
 			// 
 			// bt_exit
 			// 
-			this->bt_exit->Location = System::Drawing::Point(12, 114);
+			this->bt_exit->Location = System::Drawing::Point(12, 216);
 			this->bt_exit->Name = L"bt_exit";
 			this->bt_exit->Size = System::Drawing::Size(189, 45);
 			this->bt_exit->TabIndex = 2;
@@ -161,7 +164,7 @@ namespace pavicgui2024 {
 			// 
 			// bt_filter_bw
 			// 
-			this->bt_filter_bw->Location = System::Drawing::Point(12, 216);
+			this->bt_filter_bw->Location = System::Drawing::Point(12, 114);
 			this->bt_filter_bw->Name = L"bt_filter_bw";
 			this->bt_filter_bw->Size = System::Drawing::Size(189, 45);
 			this->bt_filter_bw->TabIndex = 7;
@@ -176,7 +179,17 @@ namespace pavicgui2024 {
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(158, 16);
 			this->label1->TabIndex = 8;
-			this->label1->Text = L" Antonio Souto Rodriguez";
+			this->label1->Text = L" Felipe Bezerra Lima";
+			// 
+			// // 
+			// label11
+			// 
+			this->label11->AutoSize = true;
+			this->label11->Location = System::Drawing::Point(388, 709);
+			this->label11->Name = L"label11";
+			this->label11->Size = System::Drawing::Size(158, 16);
+			this->label11->TabIndex = 8;
+			this->label11->Text = L"Teste";
 			// 
 			// label2
 			// 
@@ -216,6 +229,7 @@ namespace pavicgui2024 {
 			this->Controls->Add(this->bt_close_copy);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
+			this->Controls->Add(this->label11);
 			this->Controls->Add(this->bt_filter_bw);
 			this->Controls->Add(this->bt_copy);
 			this->Controls->Add(this->pbox_output);
@@ -249,21 +263,65 @@ private: System::Void bt_close_Click(System::Object^ sender, System::EventArgs^ 
 private: System::Void bt_copy_Click(System::Object^ sender, System::EventArgs^ e) {
 	//copyStopwatch = gcnew System::Diagnostics.Stopwatch();
 	//copyStopwatch->Start();
-	pbox_copy->Image = pbox_input->Image;
+
+	/*pbox_copy->Image = pbox_input->Image;*/
 
 	//copyStopwatch->Stop();
-	//label11->Text = "Tempo de c�pia: " + copyStopwatch->ElapsedMilliseconds.ToString() + " ms";
+	//label11->Text = "Tempo de cópia: " + duration_single_thread.count() + " ms";
+
+	// Obtém a imagem de entrada
+	Bitmap^ inputImage = (Bitmap^)pbox_input->Image;
+
+	int width = inputImage->Width;
+	int height = inputImage->Height;
+
+	// Inicia o timer
+	auto start_single_thread = std::chrono::high_resolution_clock::now();
+	// Cria um bitmap para a imagem de saída
+	Bitmap^ outputImage = gcnew Bitmap(width, height);
+
+	// Itera por cada pixel na imagem de entrada
+	for (int x = 0; x < width; x++) {
+		for (int y = 0; y < height; y++) {
+			// Obtém a cor do pixel atual
+			Color pixelColor = inputImage->GetPixel(x, y);
+
+			// Copia os valores RGB
+			int red = pixelColor.R;
+			int green = pixelColor.G;
+			int blue = pixelColor.B;
+
+			//// Aplica o filtro azul
+			//blue += 100;
+			//if (blue > 255) {
+			//	blue = 255;
+			//}
+
+			// Atribui o valor do pixel na imagem de saída
+			outputImage->SetPixel(x, y, Color::FromArgb(red, green, blue));
+		}
+	}
+	// Para o timer
+	auto stop_single_thread = std::chrono::high_resolution_clock::now();
+	// Registra o tempo do timer em milisegundos
+	auto duration_single_thread = std::chrono::duration_cast<std::chrono::milliseconds>(stop_single_thread - start_single_thread);
+	label11->Text = "Tempo de cópia: " + duration_single_thread.count() + " ms";
+
+	// Exibe a imagem de saída
+	pbox_copy->Image = outputImage;
 
 }
 private: System::Void bt_filter_bw_Click(System::Object^ sender, System::EventArgs^ e) {
 
-	// Get the input image
+	// Obtém a imagem de entrada
 	Bitmap^ inputImage = (Bitmap^)pbox_input->Image;
 
-	// Create a new output image with the same dimensions
+	// Inicia o timer
+	auto start_single_thread = std::chrono::high_resolution_clock::now();
+	// Cria um bitmap para a imagem de saída
 	Bitmap^ outputImage = gcnew Bitmap(inputImage->Width, inputImage->Height);
 
-	// Apply the black and white filter
+	// Aplica o filtro preto e branco
 	for (int i = 0; i < inputImage->Width; i++) {
 		for (int j = 0; j < inputImage->Height; j++) {
 			Color pixelColor = inputImage->GetPixel(i, j);
@@ -271,8 +329,13 @@ private: System::Void bt_filter_bw_Click(System::Object^ sender, System::EventAr
 			outputImage->SetPixel(i, j, Color::FromArgb(grayValue, grayValue, grayValue));
 		}
 	}
+	// Para o timer
+	auto stop_single_thread = std::chrono::high_resolution_clock::now();
+	// Registra o tempo do timer em milisegundos
+	auto duration_single_thread = std::chrono::duration_cast<std::chrono::milliseconds>(stop_single_thread - start_single_thread);
+	label11->Text = "Tempo de filtro: " + duration_single_thread.count() + " ms";
 
-	// Display the output image
+	// Exibe a imagem de saída
 	pbox_output->Image = outputImage;
 }
 private: System::Void bt_exit_Click(System::Object^ sender, System::EventArgs^ e) {
