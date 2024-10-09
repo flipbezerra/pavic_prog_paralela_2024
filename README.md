@@ -8,11 +8,11 @@ A aplicação pode ler uma imagem e aplicar nela os seguintes filtros:
 além de possibilitar o ajuste da intensidade desses filtros, e registrar o tempo de execução da aplicação dos filtros. 
 Para fins de avaliação de desempenho, esses filtros podem ser aplicados utilizando programação sequencial ou programação paralela. 
 
-## Planos futuros:
+## Planos futuros
 - implementar os filtros utilizando multithreading
 - implementar os filtros utilizando a GPU por meio do CUDA Toolkit
 
-## Membros da Equipe:<br/>
+## Membros da Equipe
 - Felipe Bezerra Lima
 - Gabriel Martins
 - Jonatan Fragoso
