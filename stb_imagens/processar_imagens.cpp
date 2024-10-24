@@ -38,7 +38,7 @@ int main() {
     int width, height, channels;
     
     // Carregar a imagem
-    unsigned char* image = stbi_load("input.jpg", &width, &height, &channels, 0);
+    unsigned char* image = stbi_load("apple.jpg", &width, &height, &channels, 0);
     if (image == nullptr) {
         std::cout << "Erro ao carregar a imagem!" << std::endl;
         return -1;
